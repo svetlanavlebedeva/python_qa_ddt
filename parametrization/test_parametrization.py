@@ -29,16 +29,17 @@ def test_three_nested(param1, param2):
 # Example with params ids
 # Param filtering users posts by id
 # https://jsonplaceholder.typicode.com/posts?userId=1
-@pytest.mark.parametrize('userId', [-1, 0, 'a', 11, 9], ids=["negative", "zero", "letter", "out_of_range", "valid_value"])
+@pytest.mark.parametrize('userId', [-1, 0, 'a', 11, 9],
+                         ids=["negative", "zero", "letter", "out_of_range", "valid_value"])
 def test_api_empty_response_on_user_id(userId, base_url):
     assert requests.get(base_url + "/posts", params={'userId': userId}).json() == []
 
 
 @pytest.mark.parametrize("test_input, expected", [
-                             ("3+5", 8),
-                             ("2+4", 6),
-                             pytest.param("6*9", 42, marks=pytest.mark.skip(reason="JIRA-12312"))
-                         ])
+    ("3+5", 8),
+    ("2+4", 6),
+    pytest.param("6*9", 42, marks=pytest.mark.skip(reason="JIRA-12312"))
+])
 def test_eval(test_input, expected):
     assert eval(test_input) == expected
 
@@ -46,3 +47,9 @@ def test_eval(test_input, expected):
 @pytest.mark.parametrize("param", [1, 2, 3], ids=["one", "two", "three"])
 def test_with_fixture(param_fixture, param):
     assert (param_fixture + param) % 2 == 0
+
+
+@pytest.mark.parametrize("fixt", ["a", "b"], indirect=True)
+def test_indirect(fixt):
+    len_ = len(fixt)
+    assert len_ == 3
