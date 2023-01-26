@@ -8,11 +8,17 @@ def test_example_one():
 
 
 @pytest.mark.regress
-@pytest.mark.xfail(strict=True)
+@pytest.mark.xfail(run=False)
 def test_example_two():
     assert True
 
 
-@pytest.mark.auth
+@pytest.mark.regress
+@pytest.mark.xfail(strict=True)
 def test_example_three():
+    assert True
+
+
+@pytest.mark.auth
+def test_example_four():
     pass
